@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/bg_dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        android:background="@color/bg_card_gold_solid">
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="🔐 " android:textSize="20sp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="Private Encrypted Folder"
+            android:textSize="18sp" android:textStyle="bold" android:textColor="@color/white"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="AES-256 Encrypted • Files यहाँ completely secure हैं"
+        android:textSize="12sp"
+        android:textColor="@color/accent_gold"
+        android:gravity="center"
+        android:padding="8dp"
+        android:background="@color/bg_dark_secondary" />
+
+    <TextView
+        android:id="@+id/tvEmptyPrivate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="कोई encrypted file नहीं है\n🔐 बटन दबाकर file encrypt करें"
+        android:gravity="center"
+        android:textColor="@color/white_70"
+        android:textSize="16sp"
+        android:padding="48dp"
+        android:visibility="gone" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvPrivateFiles"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:padding="8dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddPrivate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:layout_margin="16dp"
+        android:src="@android:drawable/ic_input_add"
+        android:backgroundTint="@color/accent_gold" />
+
+</LinearLayout>

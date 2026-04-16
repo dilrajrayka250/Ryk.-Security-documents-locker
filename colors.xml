@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Background Colors -->
+    <color name="bg_dark">#0F0F14</color>
+    <color name="bg_dark_secondary">#1A1A24</color>
+    <color name="bg_card_gold_solid">#2A2010</color>
+
+    <!-- Brand Colors -->
+    <color name="accent_gold">#FFD700</color>
+    <color name="primary_blue">#2979FF</color>
+    <color name="success_green">#00C853</color>
+    <color name="error_red">#FF1744</color>
+    <color name="purple_primary">#7C4DFF</color>
+
+    <!-- Text Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="white_70">#B3FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray_600">#757575</color>
+
+    <!-- Card Background Colors (for XML drawables) -->
+    <color name="card_blue">#1A237E</color>
+    <color name="card_gold">#F57F17</color>
+    <color name="card_green">#1B5E20</color>
+    <color name="card_purple">#4A148C</color>
+
+    <!-- System (required) -->
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+</resources>

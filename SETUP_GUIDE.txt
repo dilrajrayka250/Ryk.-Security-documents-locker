@@ -1,0 +1,75 @@
+====================================================================
+  RYK SECRET DOCUMENTS LOCKER - Android Project Setup Guide
+====================================================================
+Package: com.securedocs.app
+Min SDK: 24 (Android 7.0+)
+Target SDK: 34 (Android 14)
+Language: Kotlin
+
+====================================================================
+  STEP 1: Android Studio में Import
+====================================================================
+1. Android Studio खोलें
+2. File > Open > RYKSecretLocker folder select करें
+3. Gradle sync होने दें (Internet चाहिए)
+
+====================================================================
+  STEP 2: SDK Path Fix (local.properties)
+====================================================================
+local.properties file में अपना SDK path डालें:
+  Mac:     sdk.dir=/Users/YOUR_NAME/Library/Android/sdk
+  Windows: sdk.dir=C:\Users\YOUR_NAME\AppData\Local\Android\Sdk
+  Linux:   sdk.dir=/home/YOUR_NAME/Android/Sdk
+
+====================================================================
+  STEP 3: AdMob Setup (Real Ads के लिए)
+====================================================================
+AndroidManifest.xml में अपना AdMob App ID डालें:
+  <meta-data
+      android:name="com.google.android.gms.ads.APPLICATION_ID"
+      android:value="ca-app-pub-XXXXXXXXXXXXXXXX~XXXXXXXXXX" />
+
+AdManager.kt में अपने Ad Unit IDs डालें:
+  BANNER_AD_UNIT_ID    = "ca-app-pub-XXXX/XXXXXXXXXX"
+  INTERSTITIAL_AD_UNIT = "ca-app-pub-XXXX/XXXXXXXXXX"
+  REWARDED_AD_UNIT     = "ca-app-pub-XXXX/XXXXXXXXXX"
+
+====================================================================
+  STEP 4: Google Play Billing Setup (₹9 Premium)
+====================================================================
+1. Google Play Console में app publish करें
+2. Monetize > Products > In-app products में जाएं
+3. Product ID: "ryk_premium_unlock" create करें
+4. Price: ₹9 set करें
+5. BillingManager.kt में PREMIUM_PRODUCT_ID verify करें
+
+====================================================================
+  STEP 5: App Features
+====================================================================
+✅ Splash Screen (Dark theme, Gold branding)
+✅ PIN Login (4-digit, Encrypted SharedPreferences)
+✅ Home Dashboard (4 Cards + Premium upgrade banner)
+✅ Normal Folder (File upload + RecyclerView)
+✅ Private Folder (AES-256 Encrypted + Biometric lock)
+✅ QR Scanner (ML Kit, real-time scanning)
+✅ Local Backup (Premium + Ad-based)
+✅ AdMob (Banner + Interstitial + Rewarded)
+✅ Google Play Billing (₹9 one-time purchase)
+
+====================================================================
+  STEP 6: Build & Run
+====================================================================
+1. Gradle Sync > Build > Run on Device/Emulator
+2. Release build: Build > Generate Signed APK/AAB
+
+====================================================================
+  IMPORTANT: Test Mode
+====================================================================
+- सभी AdMob IDs अभी TEST IDs हैं - Real Ads नहीं आएंगे
+- Play Billing Test करने के लिए: Play Console > Test Tracks
+- Production से पहले सभी Test IDs को Real IDs से replace करें
+
+====================================================================
+  Project by: RYK
+  Contact: Update करें
+====================================================================
