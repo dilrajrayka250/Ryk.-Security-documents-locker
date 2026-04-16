@@ -1,118 +1,135 @@
-package com.example.mydocumentapp
+package com.securedocs.app.ui
 
-import android.Manifest
-import android.content.pm.PackageManager
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.widget.Button
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.CameraSelector
-import androidx.camera.core.ImageCapture
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.Preview
+import androidx.camera.core.*
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.view.PreviewView
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdView
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.Locale
+import com.google.mlkit.vision.barcode.BarcodeScanning
+import com.google.mlkit.vision.barcode.common.Barcode
+import com.google.mlkit.vision.common.InputImage
+import com.securedocs.app.databinding.ActivityScannerBinding
+import com.securedocs.app.storage.FileManager
+import com.securedocs.app.utils.PermissionHelper
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 class ScannerActivity : AppCompatActivity() {
 
-    private lateinit var previewView: PreviewView
-    private lateinit var btnCapture: Button
-    private lateinit var adView: AdView
-    private var imageCapture: ImageCapture? = null
+    private lateinit var binding: ActivityScannerBinding
+    private lateinit var cameraExecutor: ExecutorService
+    private var scanning = true
 
-    companion object {
-        private const val CAMERA_PERMISSION_CODE = 200
-        private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
-    }
+    // ── Activity Result API (modern, non-deprecated) ──────────────────────────
+    private val cameraPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
+            if (granted) startCamera()
+            else {
+                Toast.makeText(this, "Camera permission required", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_scanner)
+        binding = ActivityScannerBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        previewView = findViewById(R.id.previewView)
-        btnCapture = findViewById(R.id.btnCapture)
-        adView = findViewById(R.id.adViewScanner)
+        cameraExecutor = Executors.newSingleThreadExecutor()
 
-        val adRequest = AdRequest.Builder().build()
-        adView.loadAd(adRequest)
-
-        if (allPermissionsGranted()) {
+        if (PermissionHelper.hasCameraPermission(this)) {
             startCamera()
         } else {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.CAMERA),
-                CAMERA_PERMISSION_CODE
-            )
+            cameraPermissionLauncher.launch(android.Manifest.permission.CAMERA)
         }
-
-        btnCapture.setOnClickListener { takePhoto() }
     }
 
-    private fun allPermissionsGranted() = ContextCompat.checkSelfPermission(
-        this, Manifest.permission.CAMERA
-    ) == PackageManager.PERMISSION_GRANTED
+    // ── Camera ────────────────────────────────────────────────────────────────
 
     private fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-        cameraProviderFuture.addListener({
-            val cameraProvider = cameraProviderFuture.get()
-            val preview = Preview.Builder().build().also {
-                it.setSurfaceProvider(previewView.surfaceProvider)
-            }
-            imageCapture = ImageCapture.Builder().build()
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+        val providerFuture = ProcessCameraProvider.getInstance(this)
+        providerFuture.addListener({
             try {
-                cameraProvider.unbindAll()
-                cameraProvider.bindToLifecycle(this, cameraSelector, preview, imageCapture)
-            } catch (exc: Exception) {
-                Toast.makeText(this, "Camera start error: ${exc.message}", Toast.LENGTH_SHORT).show()
+                val provider = providerFuture.get()
+                val preview = Preview.Builder().build()
+                    .also { it.setSurfaceProvider(binding.previewView.surfaceProvider) }
+
+                val analyzer = ImageAnalysis.Builder()
+                    .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
+                    .build()
+                    .also { ia ->
+                        ia.setAnalyzer(cameraExecutor) { proxy ->
+                            if (!scanning) { proxy.close(); return@setAnalyzer }
+                            val media = proxy.image
+                            if (media == null) { proxy.close(); return@setAnalyzer }
+                            val img = InputImage.fromMediaImage(
+                                media, proxy.imageInfo.rotationDegrees
+                            )
+                            BarcodeScanning.getClient().process(img)
+                                .addOnSuccessListener { barcodes ->
+                                    barcodes.firstOrNull()?.let { bc ->
+                                        scanning = false
+                                        onBarcodeDetected(bc)
+                                    }
+                                }
+                                .addOnCompleteListener { proxy.close() }
+                        }
+                    }
+
+                provider.unbindAll()
+                provider.bindToLifecycle(
+                    this, CameraSelector.DEFAULT_BACK_CAMERA, preview, analyzer
+                )
+            } catch (e: Exception) {
+                Toast.makeText(this, "Camera error: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }, ContextCompat.getMainExecutor(this))
     }
 
-    private fun takePhoto() {
-        val imageCapture = imageCapture ?: return
-        val photoFile = File(
-            externalMediaDirs.firstOrNull(),
-            SimpleDateFormat(FILENAME_FORMAT, Locale.US).format(System.currentTimeMillis()) + ".jpg"
-        )
-        val outputOptions = ImageCapture.OutputFileOptions.Builder(photoFile).build()
-        imageCapture.takePicture(
-            outputOptions,
-            ContextCompat.getMainExecutor(this),
-            object : ImageCapture.OnImageSavedCallback {
-                override fun onError(exc: ImageCaptureException) {
-                    Toast.makeText(this@ScannerActivity, "Photo capture failed", Toast.LENGTH_SHORT).show()
-                }
+    // ── Barcode result ────────────────────────────────────────────────────────
 
-                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
-                    Toast.makeText(this@ScannerActivity, "Document scan saved!", Toast.LENGTH_SHORT).show()
-                    // TODO: OCR / PDF conversion here
-                }
-            }
-        )
+    private fun onBarcodeDetected(barcode: Barcode) {
+        val value = barcode.rawValue ?: return
+        FileManager.saveQrResult(this, value)
+        runOnUiThread {
+            binding.tvScanStatus.text = "Scanned & Saved ✓"
+            showResultDialog(value, barcode.valueType)
+        }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == CAMERA_PERMISSION_CODE && grantResults.isNotEmpty()
-            && grantResults[0] == PackageManager.PERMISSION_GRANTED
-        ) {
-            startCamera()
-        } else {
-            Toast.makeText(this, "Camera permission required", Toast.LENGTH_SHORT).show()
-        }
+    private fun showResultDialog(value: String, type: Int) {
+        val isUrl = type == Barcode.TYPE_URL
+        AlertDialog.Builder(this)
+            .setTitle("Scan Result")
+            .setMessage(value)
+            .setPositiveButton("Copy") { _, _ ->
+                val clip = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                clip.setPrimaryClip(ClipData.newPlainText("scan", value))
+                Toast.makeText(this, "Copied!", Toast.LENGTH_SHORT).show()
+                scanning = true
+            }
+            .apply {
+                if (isUrl) {
+                    setNeutralButton("Open URL") { _, _ ->
+                        startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(value)))
+                        scanning = true
+                    }
+                }
+            }
+            .setNegativeButton("Scan Again") { _, _ -> scanning = true }
+            .show()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        cameraExecutor.shutdown()
     }
 }

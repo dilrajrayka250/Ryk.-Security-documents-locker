@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base Theme -->
-    <style name="Base.Theme.RYKSecretLocker" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primary_blue</item>
-        <item name="colorPrimaryVariant">@color/card_blue</item>
+    <!-- ── Base Theme ─────────────────────────────────────────────────────── -->
+    <style name="Base.Theme.SecureDocsApp" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/btn_blue</item>
+        <item name="colorPrimaryVariant">@color/bg_dark_secondary</item>
         <item name="colorOnPrimary">@color/white</item>
         <item name="colorSecondary">@color/accent_gold</item>
         <item name="colorOnSecondary">@color/black</item>
@@ -14,39 +14,35 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="Theme.RYKSecretLocker" parent="Base.Theme.RYKSecretLocker" />
+    <style name="Theme.SecureDocsApp" parent="Base.Theme.SecureDocsApp" />
 
-    <!-- Splash Theme (Full Screen) -->
-    <style name="Theme.RYKSecretLocker.Splash" parent="Base.Theme.RYKSecretLocker">
+    <!-- ── Splash (full screen) ───────────────────────────────────────────── -->
+    <style name="Theme.SecureDocsApp.Splash" parent="Base.Theme.SecureDocsApp">
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowNoTitle">true</item>
     </style>
 
-    <!-- PIN Button Style -->
+    <!-- ── PIN numpad button ──────────────────────────────────────────────── -->
     <style name="PinButton">
         <item name="android:layout_width">72dp</item>
         <item name="android:layout_height">72dp</item>
-        <item name="android:textSize">22sp</item>
+        <item name="android:textSize">20sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:backgroundTint">@color/bg_dark_secondary</item>
         <item name="android:stateListAnimator">@null</item>
     </style>
 
-    <!-- Dashboard Card Style -->
-    <style name="DashboardCard">
+    <!-- ── Home feature button ────────────────────────────────────────────── -->
+    <style name="HomeButton">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:padding">20dp</item>
-        <item name="android:gravity">start</item>
-    </style>
-
-    <!-- Premium Dialog -->
-    <style name="PremiumDialog" parent="Theme.MaterialComponents.DayNight.Dialog">
-        <item name="colorPrimary">@color/accent_gold</item>
-        <item name="android:windowBackground">@color/bg_dark_secondary</item>
+        <item name="android:layout_marginBottom">12dp</item>
+        <item name="android:padding">18dp</item>
+        <item name="android:textSize">15sp</item>
         <item name="android:textColor">@color/white</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:stateListAnimator">@null</item>
     </style>
 
 </resources>

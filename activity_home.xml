@@ -6,19 +6,20 @@
     android:orientation="vertical"
     android:background="@color/bg_dark">
 
-    <!-- Header -->
+    <!-- ── Header ─────────────────────────────────────────────────────────── -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:background="@color/bg_dark_secondary">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="RYK Secret Locker"
+            android:text="@string/app_name"
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/accent_gold" />
@@ -28,25 +29,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="⭐ PREMIUM"
-            android:textSize="12sp"
+            android:textSize="11sp"
             android:textColor="@color/accent_gold"
             android:background="@drawable/bg_premium_badge"
-            android:paddingHorizontal="8dp"
+            android:paddingHorizontal="10dp"
             android:paddingVertical="4dp"
             android:visibility="gone" />
-
     </LinearLayout>
 
-    <!-- AdMob Banner -->
-    <com.google.android.gms.ads.AdView
-        android:id="@+id/adViewHome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        ads:adSize="BANNER"
-        ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
-
-    <!-- Cards ScrollView -->
+    <!-- ── Feature Buttons ───────────────────────────────────────────────── -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -58,62 +49,32 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- Normal Folder Card -->
-            <LinearLayout
-                android:id="@+id/cardNormal"
-                style="@style/DashboardCard"
-                android:background="@drawable/bg_card_blue">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="📁" android:textSize="32sp" android:layout_marginBottom="8dp"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Normal Folder" android:textSize="16sp" android:textStyle="bold" android:textColor="@color/white"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="सभी Documents" android:textSize="12sp" android:textColor="@color/white_70"/>
-            </LinearLayout>
+            <Button
+                android:id="@+id/btnNormalDocs"
+                style="@style/HomeButton"
+                android:text="📁  Normal Documents"
+                android:backgroundTint="@color/btn_blue" />
 
-            <!-- Private Folder Card -->
-            <LinearLayout
-                android:id="@+id/cardPrivate"
-                style="@style/DashboardCard"
-                android:background="@drawable/bg_card_gold"
-                android:layout_marginTop="12dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="🔐" android:textSize="32sp" android:layout_marginBottom="8dp"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Private Folder" android:textSize="16sp" android:textStyle="bold" android:textColor="@color/white"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="AES-256 Encrypted • Premium" android:textSize="12sp" android:textColor="@color/white_70"/>
-            </LinearLayout>
+            <Button
+                android:id="@+id/btnPrivateDocs"
+                style="@style/HomeButton"
+                android:text="🔐  Private Documents"
+                android:backgroundTint="@color/btn_gold"
+                android:textColor="@color/black" />
 
-            <!-- QR Scanner Card -->
-            <LinearLayout
-                android:id="@+id/cardScanner"
-                style="@style/DashboardCard"
-                android:background="@drawable/bg_card_green"
-                android:layout_marginTop="12dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="📷" android:textSize="32sp" android:layout_marginBottom="8dp"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="QR Scanner" android:textSize="16sp" android:textStyle="bold" android:textColor="@color/white"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="ML Kit Barcode Scanner" android:textSize="12sp" android:textColor="@color/white_70"/>
-            </LinearLayout>
+            <Button
+                android:id="@+id/btnQrScan"
+                style="@style/HomeButton"
+                android:text="📷  QR Scan &amp; Save"
+                android:backgroundTint="@color/btn_green" />
 
-            <!-- Backup Card -->
-            <LinearLayout
-                android:id="@+id/cardBackup"
-                style="@style/DashboardCard"
-                android:background="@drawable/bg_card_purple"
-                android:layout_marginTop="12dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="☁️" android:textSize="32sp" android:layout_marginBottom="8dp"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="Local Backup" android:textSize="16sp" android:textStyle="bold" android:textColor="@color/white"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="सभी files backup करें" android:textSize="12sp" android:textColor="@color/white_70"/>
-            </LinearLayout>
+            <Button
+                android:id="@+id/btnBackup"
+                style="@style/HomeButton"
+                android:text="☁️  Backup"
+                android:backgroundTint="@color/btn_purple" />
 
-            <!-- Upgrade Banner -->
+            <!-- Upgrade Banner (hidden for premium) -->
             <LinearLayout
                 android:id="@+id/btnUpgradePremium"
                 android:layout_width="match_parent"
@@ -123,15 +84,31 @@
                 android:padding="16dp"
                 android:gravity="center"
                 android:layout_marginTop="16dp">
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="⭐ Premium Unlock करें — सिर्फ ₹9"
-                    android:textSize="14sp" android:textStyle="bold" android:textColor="@color/accent_gold"/>
-                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:text="No Ads • Encrypted Folder • Unlimited Backup"
-                    android:textSize="12sp" android:textColor="@color/white_70"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="⭐ Upgrade to Premium"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/accent_gold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No Ads • Encrypted Folder • Backup"
+                    android:textSize="12sp"
+                    android:textColor="@color/white_70" />
             </LinearLayout>
 
         </LinearLayout>
     </ScrollView>
+
+    <!-- ── AdMob Banner (bottom, free users only) ─────────────────────────── -->
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adViewHome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 
 </LinearLayout>

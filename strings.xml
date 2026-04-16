@@ -1,41 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RYK Secret Locker</string>
-    <string name="tagline">Your Documents, Ultra Secure</string>
-
-    <!-- Login -->
-    <string name="enter_pin">PIN डालें</string>
-    <string name="set_pin">नया PIN सेट करें</string>
-    <string name="wrong_pin">गलत PIN! फिर से try करें</string>
-    <string name="pin_set_success">PIN सेट हो गया!</string>
-
-    <!-- Home -->
-    <string name="normal_folder">Normal Folder</string>
-    <string name="private_folder">Private Folder</string>
-    <string name="qr_scanner">QR Scanner</string>
-    <string name="backup">Backup</string>
+    <string name="app_name">SecureDocsApp</string>
+    <string name="tagline">Your Documents, Safe &amp; Secure</string>
+    <string name="btn_normal">Normal Documents</string>
+    <string name="btn_private">Private Documents</string>
+    <string name="btn_qr">QR Scan &amp; Save</string>
+    <string name="btn_backup">Backup</string>
+    <string name="btn_upgrade">Upgrade to Premium</string>
+    <string name="pin_enter">PIN डालें</string>
+    <string name="pin_set">नया PIN सेट करें</string>
+    <string name="pin_wrong">गलत PIN! फिर से try करें।</string>
+    <string name="pin_saved">PIN set हो गया!</string>
     <string name="premium_badge">⭐ PREMIUM</string>
-    <string name="upgrade_title">Premium Unlock करें</string>
-    <string name="upgrade_price">₹9 में Unlock</string>
-    <string name="upgrade_features">No Ads • Encrypted Folder • Unlimited Backup</string>
-
-    <!-- Private Folder -->
-    <string name="biometric_title">Private Documents</string>
-    <string name="biometric_subtitle">RYK Secret Locker</string>
-    <string name="biometric_description">AES-256 Encrypted Folder</string>
-
-    <!-- Scanner -->
-    <string name="scan_hint">Camera पर QR code लाएं...</string>
-    <string name="copy_result">Copy</string>
-    <string name="scan_again">Scan Again</string>
-
-    <!-- Backup -->
-    <string name="backup_title">Local Backup</string>
-    <string name="backup_now">Backup Now</string>
-    <string name="watch_ad_backup">🎬 Ad देखें — 1 Free Backup पाएं</string>
-    <string name="backup_complete">Backup Complete!</string>
-
-    <!-- Billing -->
-    <string name="purchase_cancel">Purchase cancel किया गया</string>
-    <string name="premium_product_id">ryk_premium_unlock</string>
+    <string name="scan_hint">Point camera at a QR code…</string>
+    <string name="backup_hint">Tap below to copy all files to the backup folder.</string>
+    <string name="empty_normal">No files yet.\nTap ＋ to add a document.</string>
+    <string name="empty_private">No encrypted files yet.\nTap 🔐 to add.</string>
 </resources>

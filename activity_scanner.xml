@@ -21,20 +21,22 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:textColor="@color/white"
-        android:padding="16dp"
-        android:gravity="center" />
+        android:gravity="center"
+        android:padding="12dp" />
 
+    <!-- Live Camera Preview -->
     <androidx.camera.view.PreviewView
-        android:id="@+id/previewViewScanner"
+        android:id="@+id/previewView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
+    <!-- Status bar -->
     <TextView
-        android:id="@+id/tvScanResult"
+        android:id="@+id/tvScanStatus"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Camera पर QR code लाएं..."
+        android:text="Point camera at a QR code…"
         android:textSize="14sp"
         android:textColor="@color/white_70"
         android:gravity="center"

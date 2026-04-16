@@ -1,38 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/bg_dark">
 
-    <LinearLayout
-        android:layout_width="match_parent"
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adViewNormal"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        android:gravity="center_vertical"
-        android:background="@color/bg_dark_secondary">
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="🔐 " android:textSize="22sp" />
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="Private Documents"
-            android:textSize="18sp" android:textStyle="bold" android:textColor="@color/white" />
-    </LinearLayout>
+        android:layout_gravity="center_horizontal"
+        ads:adSize="BANNER"
+        ads:adUnitId="ca-app-pub-3940256099942544/6300978111" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="AES-256 Encrypted — files are secure"
-        android:textSize="12sp"
-        android:textColor="@color/accent_gold"
-        android:gravity="center"
-        android:padding="8dp" />
+        android:text="📁 Normal Documents"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:padding="16dp" />
 
     <TextView
-        android:id="@+id/tvEmptyPrivate"
+        android:id="@+id/tvEmptyNormal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="No encrypted files yet.\nTap 🔐 to add."
+        android:text="No files yet.\nTap ＋ to add a document."
         android:gravity="center"
         android:textColor="@color/white_70"
         android:textSize="15sp"
@@ -40,7 +35,7 @@
         android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPrivateFiles"
+        android:id="@+id/rvNormalFiles"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -48,13 +43,13 @@
         android:clipToPadding="false" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddPrivate"
+        android:id="@+id/fabAddNormal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_margin="16dp"
         android:src="@android:drawable/ic_input_add"
-        android:backgroundTint="@color/accent_gold"
-        android:contentDescription="Add encrypted file" />
+        android:backgroundTint="@color/btn_blue"
+        android:contentDescription="Add file" />
 
 </LinearLayout>
